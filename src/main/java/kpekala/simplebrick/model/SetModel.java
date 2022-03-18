@@ -7,7 +7,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SetModel implements Serializable {
     private  String name;
-    private int pieceCount;
+    private int pieces;
     private String theme;
     private int year;
     private String imageLink;
@@ -15,9 +15,9 @@ public class SetModel implements Serializable {
     public SetModel(){}
 
 
-    public SetModel(String name, int pieceCount, String theme, int year, String imageLink) {
+    public SetModel(String name, int pieces, String theme, int year, String imageLink) {
         this.name = name;
-        this.pieceCount = pieceCount;
+        this.pieces = pieces;
         this.theme = theme;
         this.year = year;
         this.imageLink = imageLink;
@@ -34,8 +34,8 @@ public class SetModel implements Serializable {
         return name;
     }
 
-    public int getPieceCount() {
-        return pieceCount;
+    public int getPieces() {
+        return pieces;
     }
 
     public String getTheme() {

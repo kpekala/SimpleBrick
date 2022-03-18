@@ -4,7 +4,8 @@ import kpekala.simplebrick.model.SetFullResponse;
 import kpekala.simplebrick.model.SetModel;
 import kpekala.simplebrick.model.SetResponse;
 
-import java.util.Set;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class SetPresenter {
 
@@ -12,8 +13,7 @@ public class SetPresenter {
 
     public SetFullResponse onSetRequest(String setID) throws Throwable {
         SetResponse response = repository.fetchSet(setID);
-        SetFullResponse fullResponse = processSetResponse(response);
-        return fullResponse;
+        return processSetResponse(response);
     }
 
     private SetFullResponse processSetResponse(SetResponse response) throws Throwable {
@@ -23,9 +23,17 @@ public class SetPresenter {
         SetModel baseModel = response.getSets()[0];
         SetResponse bestSetResponse = repository.fetchBestSet(baseModel.getTheme());
 
+
         if(bestSetResponse.getSets().length == 0)
             return null;
 
-        return new SetFullResponse(baseModel,bestSetResponse.getSets()[0]);
+        SetModel bestModel = getMostPopularModel(bestSetResponse.getSets());
+
+        return new SetFullResponse(baseModel,bestModel);
+    }
+
+    private SetModel getMostPopularModel(SetModel[] sets){
+        Arrays.sort(sets, Comparator.comparingInt(SetModel::getPieces));
+        return sets[sets.length-1];
     }
 }

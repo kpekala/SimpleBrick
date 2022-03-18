@@ -1,4 +1,4 @@
-package kpekala.simplebrick;
+package kpekala.simplebrick.listeners;
 
 public interface ResponseListener<T> {
     void onResponse(T t);
