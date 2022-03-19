@@ -10,21 +10,21 @@ public class SetModel implements Serializable {
     private int pieces;
     private String theme;
     private int year;
-    private String imageLink;
+    private Image image;
 
     public SetModel(){}
 
 
-    public SetModel(String name, int pieces, String theme, int year, String imageLink) {
+    public SetModel(String name, int pieces, String theme, int year, Image image) {
         this.name = name;
         this.pieces = pieces;
         this.theme = theme;
         this.year = year;
-        this.imageLink = imageLink;
+        this.image = image;
     }
 
-    public String getImageLink() {
-        return imageLink;
+    public Image getImage() {
+        return image;
     }
 
     public int getYear() {

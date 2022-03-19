@@ -7,10 +7,13 @@ import kpekala.simplebrick.SetPresenter;
 import kpekala.simplebrick.model.SetFullResponse;
 import kpekala.simplebrick.model.SetResponse;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.swing.text.html.HTMLDocument;
 
 @RestController
 public class HelloController {
@@ -24,23 +27,30 @@ public class HelloController {
         return "Greetings from SimpleBrick!";
     }
 
-    @GetMapping("/api/set")
+    @GetMapping(value = "value= /api/set", produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
-    public SetResponse getSet(@RequestParam String id){
+    public String getSet(@RequestParam String id){
         String jsonResponse = restService.getSetWithResponseHandling(id+"-1");
         try {
-            return new ObjectMapper().readValue(jsonResponse,SetResponse.class);
+            SetResponse response = new ObjectMapper().readValue(jsonResponse,SetResponse.class);
+            return "<html>\n" + "<header><title>Welcome</title></header>\n" +
+                    "<body>\n" + "Hello world\n" + "</body>\n" + "</html>";
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return null;
         }
     }
 
+//    private String GetHTMLResponse(SetResponse response) {
+//
+//    }
+
     @GetMapping("/api/full")
     @ResponseBody
-    public SetFullResponse getFullData(@RequestParam String id){
+    public String getFullData(@RequestParam String id){
         try {
-            return setPresenter.onSetRequest(id);
+            HTMLResponse response = new HTMLResponse(setPresenter.onSetRequest(id).getSetModel());
+            return response.parse();
         } catch (Throwable e) {
             e.printStackTrace();
         }
